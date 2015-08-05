@@ -1,0 +1,37 @@
+Copyright 2015 Natalie Prange, flack2bash_at_gmail_dot_com.
+
+
+Drumtronome
+
+Drumtronome is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Drumtronome is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Drumtronome.  If not, see <http://www.gnu.org/licenses/>.
+
+
+Sources:
+
+Thanks to gitHub user shukon who wrote most parts of the ScreenManager class and 
+the IScreen interface and Louis for contributing the Serializer class.
+
+Buttons:
+Buttons and Icons are originals or modified versions from icons by Pavel InFeRnODeMoN, 
+found on https://www.iconfinder.com/iconsets/realistiK_new, published under GPL and
+icons by Everaldo Coelho, found on https://www.iconfinder.com/iconsets/crystalproject, 
+published under LGPL.
+
+Wood Textures:
+http://opengameart.org/content/wood-texture-tiles
+Licence: CC0
+
+Sounds:
+PingHigh and PingLow found on
+http://stash.reaper.fm/v/706/CLICKS_2.zip
