@@ -165,24 +165,22 @@ namespace Metronome.Screens
         private void HandleKeyboardInput(Input keyboardInput)
         {
             // Handle keyboard input
-            if (keyboardInput.mType == InputType.Keystroke)
+            if (keyboardInput.mType != InputType.Keystroke) return;
+            var unusedKeys = new List<Keys>();
+            var nothingUsed = true;
+            if (mTextBoxes != null)
             {
-                List<Keys> unusedKeys = new List<Keys>();
-                bool nothingUsed = true;
-                foreach (var tbox in mTextBoxes)
+                foreach (var tbox in mTextBoxes.Where(tbox => tbox.IsFocused()))
                 {
-                    if (tbox.IsFocused())
-                    {
-                        unusedKeys.AddRange(keyboardInput.mKey.Where(key => !tbox.OnKeyDown(key)));
-                        nothingUsed = false;
-                        break;
-                    }
+                    unusedKeys.AddRange(keyboardInput.mKey.Where(key => !tbox.OnKeyDown(key)));
+                    nothingUsed = false;
+                    break;
                 }
-                if (nothingUsed) unusedKeys = keyboardInput.mKey.ToList();
-                foreach (var key in unusedKeys)
-                {
-                    OnKeyDown(key);
-                }
+            }
+            if (nothingUsed) unusedKeys = keyboardInput.mKey.ToList();
+            foreach (var key in unusedKeys)
+            {
+                OnKeyDown(key);
             }
         }
 
@@ -196,13 +194,14 @@ namespace Metronome.Screens
                         var focused = false;
                         for (var i = 0; i < mTextBoxes.Length; i++)
                         {
-                            if (mTextBoxes[i].IsFocused())
+                            if (!mTextBoxes[i].IsFocused())
                             {
-                                mTextBoxes[i].RemoveFocus();
-                                mTextBoxes[++i % mTextBoxes.Length].SetFocus();
-                                focused = true;
-                                break;
+                                continue;
                             }
+                            mTextBoxes[i].RemoveFocus();
+                            mTextBoxes[++i % mTextBoxes.Length].SetFocus();
+                            focused = true;
+                            break;
                         }
                         if (!focused && mTextBoxes.Length > 0) mTextBoxes[0].SetFocus();
                     }
@@ -224,28 +223,29 @@ namespace Metronome.Screens
             // Draw the buttons
             for (var i = 0; i < mButtons.Length; i++)
             {
-                if (!mButtons[i].mInvisible)
+                if (mButtons[i].mInvisible)
                 {
-                    Texture2D button;
-                    switch (mButtons[i].mState)
-                    {
-                        case OwnButtonState.Hot:
-                            button = mButtons[i].mTextures[1];
-                            break;
-                        case OwnButtonState.Pressed:
-                            button = mButtons[i].mTextures[2];
-                            break;
-                        default:
-                            button = mButtons[i].mTextures[0];
-                            break;
-                    }
-                    spriteBatch.Draw(button, mButtons[i].mRectangle, Color.White);
-                    if (mButtons[i].mLabel != null)
-                    {
-                        var strSize = mSmallFont.MeasureString(mButtons[i].mLabel);
-                        var pos = new Vector2(mButtons[i].mRectangle.X + (mButtons[i].mRectangle.Width - strSize.X) / 2, mButtons[i].mRectangle.Y + (mButtons[i].mRectangle.Height - strSize.Y) / 2);
-                        spriteBatch.DrawString(mSmallFont, mButtons[i].mLabel, pos, Color.Black);                        
-                    }
+                    continue;
+                }
+                Texture2D button;
+                switch (mButtons[i].mState)
+                {
+                    case OwnButtonState.Hot:
+                        button = mButtons[i].mTextures[1];
+                        break;
+                    case OwnButtonState.Pressed:
+                        button = mButtons[i].mTextures[2];
+                        break;
+                    default:
+                        button = mButtons[i].mTextures[0];
+                        break;
+                }
+                spriteBatch.Draw(button, mButtons[i].mRectangle, Color.White);
+                if (mButtons[i].mLabel != null)
+                {
+                    var strSize = mSmallFont.MeasureString(mButtons[i].mLabel);
+                    var pos = new Vector2(mButtons[i].mRectangle.X + (mButtons[i].mRectangle.Width - strSize.X) / 2, mButtons[i].mRectangle.Y + (mButtons[i].mRectangle.Height - strSize.Y) / 2);
+                    spriteBatch.DrawString(mSmallFont, mButtons[i].mLabel, pos, Color.Black);                        
                 }
             }
 

@@ -102,9 +102,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MetronomeContent\MetronomeContent.contentproj">
-      <Name>MetronomeContent</Name>
+    <ProjectReference Include="..\MetronomeContent\DrumtronomeContent.contentproj">
+      <Name>DrumtronomeContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{4E95248F-E9E3-4919-B4B8-5C179290E41B}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

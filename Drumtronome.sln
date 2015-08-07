@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metronome", "Metronome\Metronome\Metronome.csproj", "{ACAA457E-807A-4D01-BCFE-D6E9CC61F8F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drumtronome", "Metronome\Metronome\Drumtronome.csproj", "{ACAA457E-807A-4D01-BCFE-D6E9CC61F8F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetronomeContent", "Metronome\MetronomeContent\MetronomeContent.contentproj", "{4E95248F-E9E3-4919-B4B8-5C179290E41B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrumtronomeContent", "Metronome\MetronomeContent\DrumtronomeContent.contentproj", "{4E95248F-E9E3-4919-B4B8-5C179290E41B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

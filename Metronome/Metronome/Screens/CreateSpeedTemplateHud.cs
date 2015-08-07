@@ -86,7 +86,7 @@ namespace Metronome.Screens
                     tempo = "";
                     times = "";
                 }
-                else if (c == '-')
+                else if (c == 'x')
                 {
                     if (bars == "" || (tempo != "" && times != "" )) return false;
                     if (tempo == "") seperator = 1;
