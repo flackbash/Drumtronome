@@ -26,7 +26,7 @@ namespace Metronome
             mScreenWidth = graphics.PreferredBackBufferWidth;
             mScreenHeight = graphics.PreferredBackBufferHeight;
             Content.RootDirectory = "Content";
-            mScreenManager = new ScreenManager();
+            mScreenManager = new ScreenManager(Content);
 
 
         }

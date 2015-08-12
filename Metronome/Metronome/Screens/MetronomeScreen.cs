@@ -34,6 +34,7 @@ namespace Metronome.Screens
         internal delegate void RunParameterAction(int parameter);
 
         private readonly ScreenManager mScreenManager;
+        private readonly ContentManager mContent;
         internal readonly Metronome mMetronome;
 
         private readonly SideBar mSideBar;
@@ -57,8 +58,9 @@ namespace Metronome.Screens
         private SpriteFont mBigFont;
         private SpriteFont mMediumFont;
 
-        public MetronomeScreen(ScreenManager screenManager)
+        public MetronomeScreen(ScreenManager screenManager, ContentManager content)
         {
+            mContent = content;
             mMetronome = File.Exists("savedata.txt") ? SaveData.GetInstance().Load("savedata.txt") : new Metronome();
             mScreenManager = screenManager;
             mRectangle = new Rectangle(0, 0, Game.mScreenWidth, Game.mScreenHeight);
@@ -69,7 +71,7 @@ namespace Metronome.Screens
             var rect = new Rectangle(Game.mScreenWidth / 2 - width / 2, Game.mScreenHeight / 2 - height / 2, width, height);
             mSpeedTrainerHud = new SpeedTrainerHud(mScreenManager, mMetronome, rect);
             mStopHud = new StopHud(mScreenManager, mMetronome, rect);
-            mSideBar = new SideBar(mScreenManager, mMetronome, new Rectangle(0, 0, Game.mScreenWidth / 5, Game.mScreenHeight));
+            mSideBar = new SideBar(mScreenManager, mContent, mMetronome, new Rectangle(0, 0, Game.mScreenWidth / 5, Game.mScreenHeight));
 
             // Initialize buttons
             RunAction[] actions =

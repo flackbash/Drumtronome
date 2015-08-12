@@ -14,6 +14,7 @@ namespace Metronome
 {
     sealed class ScreenManager
     {
+        private readonly ContentManager mContent;
         private readonly InputManager mInputManager;
         private readonly Stack<IScreen> mScreenStack;
         private readonly Stack<IScreen> mScreensToDraw;
@@ -24,15 +25,16 @@ namespace Metronome
         // Screens that have to be created only once per game instance
         internal readonly MetronomeScreen mMetronomeScreen;
 
-        public ScreenManager()
+        public ScreenManager(ContentManager content)
         {
+            mContent = content;
             mInputManager = new InputManager();
             mScreenStack = new Stack<IScreen>();
             mScreensToDraw = new Stack<IScreen>();
             mScreensToUpdate = new Stack<IScreen>();
             mScreensToAdd = new List<IScreen>();
 
-            mMetronomeScreen = new MetronomeScreen(this);
+            mMetronomeScreen = new MetronomeScreen(this, mContent);
 
             mScreenStack.Push(mMetronomeScreen);
         }

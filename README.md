@@ -8,7 +8,7 @@ Drumtronome has the usual functionalities of a simple metronome, but there is mu
 
 Have you ever been annoyed by having to stop your paradiddles or rudiments in order to increase the tempo? This metronome allows you to specify tempo adjustments *before* you start playing. 
 
-In addition to a simple speed trainer, which will automatically increase the tempo after a certain number of bars, Drumtronome has a unique speed template generator which enables you to create your very own, personalized tempo patterns and save them for later sessions.
+In addition to a simple speed trainer, which will automatically increase the tempo after a certain number of bars, Drumtronome has a unique speed template generator which enables you to create your very own tempo patterns and save them for later sessions.
 
 
 ## Use ##
@@ -51,4 +51,4 @@ Note that the template language is rather sensitive. Whitespaces, additional dot
 
 ## Sources ##
 
-The sounds and most of the graphics used here are not my own. See Info for a list of my sources.
+The sounds and most of the graphics used here are not my own. See the Info file for a list of my sources.

@@ -8,6 +8,7 @@ namespace Metronome.Screens
 {
     sealed class SideBar : Hud
     {
+        private readonly ContentManager mContent; 
         private readonly CreateRudimentHud mCreateRudimentHud;
         private readonly EditSpeedTemplateHud mEditSpeedTemplateHud;
         private readonly CreateSpeedTemplateHud mCreateSpeedTemplateHud;
@@ -16,8 +17,9 @@ namespace Metronome.Screens
         // Content
         private Texture2D[] mTextButtonTextures;
 
-        public SideBar(ScreenManager screenManager, Metronome metronome, Rectangle rect) : base(screenManager, metronome, rect)
+        public SideBar(ScreenManager screenManager, ContentManager content, Metronome metronome, Rectangle rect) : base(screenManager, metronome, rect)
         {
+            mContent = content;
             // Initialize other screens
             const int width = 300;
             const int height = 200;
@@ -127,7 +129,17 @@ namespace Metronome.Screens
 
         private void StartTemplate(int template)
         {
+            if (mMetronome.mPlayTemplate)
+            {
+                mScreenManager.StageScreenForRemoval();
+            }
+
             mMetronome.mSpeedTemplates[template].StartTemplate();
+
+            var speedTemplateHud = new SpeedTemplateHud(mScreenManager, mMetronome);
+            speedTemplateHud.LoadContent(mContent);
+            mScreenManager.StageScreenForAdding(speedTemplateHud);
+
         }
 
         private void EditTemplate(int template)
