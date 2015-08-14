@@ -21,6 +21,8 @@ namespace Metronome
         private int mCursorIndex;  // Cursor is displayed in front of the character with this index
         private bool mDigitsOnly;
         private int mMaxTextLength;
+        private int mStartIndex;
+        private int mEndIndex;
 
         private SpriteFont mFont;
         private SpriteFont mMediumFont;
@@ -65,14 +67,16 @@ namespace Metronome
         public void Draw(SpriteBatch spriteBatch)
         {
             mFont = mUseSmallFont ? mSmallFont : mMediumFont;
+            SetStartEndIndex();
             spriteBatch.Draw(mTextBox, mRect, mBoxColor);
-            spriteBatch.DrawString(mFont, mText, mStringPos, mTextColor);
+            spriteBatch.DrawString(mFont, mText.Substring(mStartIndex, mEndIndex - mStartIndex), mStringPos, mTextColor);
             if (mIsFocused)
             {
-                var xPos = mStringPos.X + mFont.MeasureString(mText.Substring(0, mCursorIndex)).X;
+                var xPos = mStringPos.X + mFont.MeasureString(mText.Substring(mStartIndex, mCursorIndex - mStartIndex)).X;
                 var yPos = mStringPos.Y;
                 spriteBatch.Draw(mCursor, new Rectangle((int) xPos, (int) yPos + 1, 1 ,(int) mFont.MeasureString("A").Y), mTextColor);
             }
+
         }
 
         /// <summary>
@@ -189,15 +193,15 @@ namespace Metronome
 
         private void SetCursorIndex(float x)
         {
-            for (var i = 0; i < mText.Length; i++)
+            for (var i = 0; i < mEndIndex - mStartIndex; i++)
             {
-                if (Math.Round(mFont.MeasureString(mText.Substring(0, i)).X + mStringPos.X) >= x)
+                if (Math.Round(mFont.MeasureString(mText.Substring(mStartIndex, i)).X + mStringPos.X) >= x)
                 {
-                    mCursorIndex = i;
+                    mCursorIndex = mStartIndex + i;
                     return;
                 }
             }
-            mCursorIndex = mText.Length;
+            mCursorIndex = mEndIndex;
         }
 
         private void MoveCursorIndex(Direction direction)
@@ -210,6 +214,77 @@ namespace Metronome
                 case Direction.Left:
                     if (mCursorIndex > 0) mCursorIndex--;
                     break;
+            }
+        }
+
+        private void SetStartEndIndex()
+        {
+            const int buffer = -12;
+            if (mRect.Width < mFont.MeasureString(mText).X - buffer)
+            {
+                if (mIsFocused)
+                {
+                    if (mCursorIndex > mEndIndex)
+                    {
+                        mEndIndex = mCursorIndex;
+                        while (mRect.Width < mFont.MeasureString(mText.Substring(mStartIndex, mEndIndex - mStartIndex)).X - buffer)
+                        {
+                            mStartIndex++;
+                        }
+                    }
+                    else if (mCursorIndex < mStartIndex)
+                    {
+                        mStartIndex = mCursorIndex;
+                        while (mRect.Width < mFont.MeasureString(mText.Substring(mStartIndex, mEndIndex - mStartIndex)).X - buffer)
+                        {
+                            mEndIndex--;
+                        }
+                    }
+                    else if (mEndIndex > mText.Length)
+                    {
+                        mEndIndex = mText.Length;
+                        while (mRect.Width >= mFont.MeasureString(mText.Substring(mStartIndex, mEndIndex - mStartIndex)).X - buffer)
+                        {
+                            if (mStartIndex == 0)
+                            {
+                                break;
+                            }
+                            mStartIndex--;
+                        }
+                    }
+                    else if (mEndIndex != mCursorIndex)
+                    {
+                        while (mRect.Width < mFont.MeasureString(mText.Substring(mStartIndex, mEndIndex - mStartIndex)).X - buffer - 5)
+                        {
+                            mEndIndex--;
+                        }
+                       while (mRect.Width >= mFont.MeasureString(mText.Substring(mStartIndex, mEndIndex - mStartIndex)).X - buffer + 5)
+                       {
+                           if (mStartIndex == 0)
+                           {
+                               break;
+                           }
+                            mStartIndex--;
+                        }
+                    }
+                }
+                else
+                {
+                    mEndIndex = mText.Length;
+                    for (var i = 0; i < mText.Length; i++)
+                    {
+                        if (mRect.Width >= mFont.MeasureString(mText.Substring(i, mEndIndex - i)).X - buffer)
+                        {
+                            mStartIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                mStartIndex = 0;
+                mEndIndex = mText.Length;
             }
         }
 

@@ -68,6 +68,7 @@ namespace Metronome.Screens
                     if (bars == "" || tempo == "") return false;
 
                     // Set template values
+                    if (int.Parse(bars) > 999 || int.Parse(tempo) > 500 || int.Parse(times) > 999) return false;
                     mBars.Add(int.Parse(bars));
                     mTempo.Add(int.Parse(tempo));
                     if (times != "")
