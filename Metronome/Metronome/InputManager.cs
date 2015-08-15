@@ -38,6 +38,7 @@ namespace Metronome
         private KeyboardState mLastKeyboardState;
 
         private bool mInputTaken;
+        private int mPressedCounter;
 
         /// <summary>
         /// Returns true if the current screen gets an input.
@@ -81,7 +82,7 @@ namespace Metronome
             }
             if (mMouseState.RightButton == ButtonState.Released && mLastMouseState.RightButton == ButtonState.Pressed)
             {
-                Debug.WriteLine("<right Up in Input Manager");            
+                Debug.WriteLine("Right Up in Input Manager");            
                 return new Input(InputType.RightButtonUp, mousePos);
             }
             return new Input(InputType.Idle, Vector2.Zero);
@@ -93,10 +94,28 @@ namespace Metronome
         /// <returns></returns>
         public Input GetKeyboardInput()
         {
-            if (mKeyboardState.GetPressedKeys().Length > mLastKeyboardState.GetPressedKeys().Length)
+            if (mKeyboardState.GetPressedKeys().Length == 1)
             {
-                Keys[] currentKeys = mKeyboardState.GetPressedKeys();
-                Keys[] oldKeys = mLastKeyboardState.GetPressedKeys();
+                var currKey = mKeyboardState.GetPressedKeys()[0];
+                if (mLastKeyboardState.IsKeyUp(currKey))
+                {
+                    mPressedCounter++;
+                    return new Input(InputType.Keystroke, Vector2.Zero, new[] { currKey });
+                }
+                if (mLastKeyboardState.IsKeyDown(currKey))
+                {
+                    mPressedCounter++;
+                    if (mPressedCounter > 20 && mPressedCounter % 5 == 0)
+                    {
+                        return new Input(InputType.Keystroke, Vector2.Zero, new[] { currKey });
+                    }
+                }
+            }
+            else if (mKeyboardState.GetPressedKeys().Length == 0) mPressedCounter = 0;
+            else if (mKeyboardState.GetPressedKeys().Length > mLastKeyboardState.GetPressedKeys().Length)
+            {
+                var currentKeys = mKeyboardState.GetPressedKeys();
+                var oldKeys = mLastKeyboardState.GetPressedKeys();
                 return new Input(InputType.Keystroke, Vector2.Zero, currentKeys.Where(key => !oldKeys.Contains(key)).ToArray());
             }
             return new Input(InputType.Idle, Vector2.Zero);

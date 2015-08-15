@@ -22,7 +22,6 @@ namespace Metronome
         private readonly List<IScreen> mScreensToAdd;
         private int mRemovalCount;
 
-        // Screens that have to be created only once per game instance
         internal readonly MetronomeScreen mMetronomeScreen;
 
         public ScreenManager(ContentManager content)
