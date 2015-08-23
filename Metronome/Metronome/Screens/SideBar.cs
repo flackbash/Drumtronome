@@ -148,5 +148,9 @@ namespace Metronome.Screens
             mScreenManager.StageScreenForAdding(mEditSpeedTemplateHud);
             mCheckForChanges = true;
         }
+
+        protected override void Ok(){}
+
+        protected override void Close() {}
     }
 }
